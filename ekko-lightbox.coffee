@@ -239,7 +239,7 @@ EkkoLightbox.prototype = {
 		if this.options.max_image_width.length > 0 and width_total > parseInt(this.options.max_image_width) 
 		    width_total = parseInt(this.options.max_image_width)
 		    
-	    @modal_dialog.css('width', 'auto') .css('max-width', width_total).css('min-width',this.options.min_image_width)
+	    @modal_dialog.css('width', 'auto') .css('max-width', width_total).css('min-width', parseInt(this.options.min_image_width))
 
 		@lightbox_container.find('a').css 'padding-top', ->
 			$(@).parent().height() / 2
@@ -268,8 +268,8 @@ $.fn.ekkoLightbox = ( options ) ->
 			remote : $this.attr('data-remote') || $this.attr('href')
 			gallery_parent_selector : $this.attr('data-parent') 
 			type : $this.attr('data-type')
-		    max_image_width: $this.attr('data-max-width')
-            min_image_width: $this.attr('data-min-width')
+			max_image_width: $this.attr('data-max-width')
+			min_image_width: $this.attr('data-min-width')
 		}, options, $this.data())
 		new EkkoLightbox(@, options)
 		@
