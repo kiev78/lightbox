@@ -235,6 +235,11 @@ EkkoLightbox.prototype = {
 		#resize the dialog based on the width given, and adjust the directional arrow padding
 		width_total = width + @border.left + @padding.left + @padding.right + @border.right
 		@modal_dialog.css('width', 'auto') .css('max-width', width_total);
+			
+		if this.options.max_image_width.length > 0 and width_total > parseInt(this.options.max_image_width) 
+		    width_total = parseInt(this.options.max_image_width)
+		    
+	    @modal_dialog.css('width', 'auto') .css('max-width', width_total).css('min-width',this.options.min_image_width)
 
 		@lightbox_container.find('a').css 'padding-top', ->
 			$(@).parent().height() / 2
@@ -252,7 +257,7 @@ EkkoLightbox.prototype = {
 		width
 
 	close : ->
-		@modal.modal('hide');
+		@modal.modal('hide'); 
 }
 
 $.fn.ekkoLightbox = ( options ) ->
@@ -261,8 +266,10 @@ $.fn.ekkoLightbox = ( options ) ->
 		$this = $(this)
 		options = $.extend({
 			remote : $this.attr('data-remote') || $this.attr('href')
-			gallery_parent_selector : $this.attr('data-parent')
+			gallery_parent_selector : $this.attr('data-parent') 
 			type : $this.attr('data-type')
+		    max_image_width: $this.attr('data-max-width')
+            min_image_width: $this.attr('data-min-width')
 		}, options, $this.data())
 		new EkkoLightbox(@, options)
 		@
@@ -274,6 +281,8 @@ $.fn.ekkoLightbox.defaults = {
 	directional_arrows: true #display the left / right arrows or not
 	type: null #force the lightbox into image / youtube mode. if null, or not image|youtube|vimeo; detect it
 	always_show_close: true #always show the close button, even if there is no title
+	max_image_width: "",
+	min_image_width: "350",
 	onShow : ->
 	onShown : ->
 	onHide : ->
